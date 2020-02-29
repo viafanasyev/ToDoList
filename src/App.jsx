@@ -60,7 +60,7 @@ class ClassComponent extends React.Component {
 
       // Parse priority property
       const parsedPriority = Number(state.inputTaskPriority);
-      if (Number.isNaN(parsedPriority))
+      if (Number.isNaN(parsedPriority) || (state.inputTaskPriority === "") || (parsedPriority < 0))
         state.errors.priority = "Invalid number!";
 
       // Check name length
