@@ -1,22 +1,26 @@
 import React from "react";
 
-import "./App.css";
+import classnames from "classnames/bind";
+
+import styles from "./App.module.scss";
+
+const cx = classnames.bind(styles);
 
 const TextInputComponent = ({ value, placeholder, onChange }) => {
   return (
-      <input className="text-input" type="text" value={value} onChange={onChange} placeholder={placeholder}/>
+      <input className={cx("text-input")} type="text" value={value} onChange={onChange} placeholder={placeholder}/>
   );
 };
 
 const BigTextInputComponent = ({ value, placeholder, onChange }) => {
   return (
-      <textarea className="text-input-big" value={value} onChange={onChange} placeholder={placeholder}/>
+      <textarea className={cx("text-input", "text-input-big")} value={value} onChange={onChange} placeholder={placeholder}/>
   );
 };
 
 const ButtonComponent = ({ text, onClick }) => {
   return (
-      <button className="button" onClick={onClick}>
+      <button className={cx("button")} onClick={onClick}>
         {text}
       </button>
   );
@@ -24,9 +28,9 @@ const ButtonComponent = ({ text, onClick }) => {
 
 const TaskItemComponent = ({ task }) => {
   return (
-      <div className="task-item">
-        <div className="task-item-overall">{task.id}. {task.name}. Priority: {task.priority}</div>
-        <span className="task-item-description">{task.description}</span>
+      <div className={cx("task-item")}>
+        <div className={cx("task-item-overall")}>{task.id}. {task.name}. Priority: {task.priority}</div>
+        <span className={cx("task-item-description")}>{task.description}</span>
       </div>
   );
 };
@@ -122,34 +126,34 @@ class ClassComponent extends React.Component {
 
   render() {
     return (
-        <div className="app">
+        <div className={cx("app")}>
           <h1>To Do List</h1>
-          <div className="input-task-name">
+          <div className={cx("input-task-name")}>
             <TextInputComponent
               value={this.state.inputTaskName}
               onChange={this.handleTaskNameChange}
               placeholder={"Task name"}/>
-            <span className="input-error">{this.state.errors.name}</span>
+            <span className={cx("input-error")}>{this.state.errors.name}</span>
           </div>
-          <div className="input-task-description">
+          <div className={cx("input-task-description")}>
             <BigTextInputComponent
                 value={this.state.inputTaskDescription}
                 onChange={this.handleTaskDescriptionChange}
                 placeholder={"Task description"}/>
-            <span className="input-error">{this.state.errors.description}</span>
+            <span className={cx("input-error")}>{this.state.errors.description}</span>
           </div>
-          <div className="input-task-priority">
+          <div className={cx("input-task-priority")}>
             <TextInputComponent
                 value={this.state.inputTaskPriority}
                 onChange={this.handleTaskPriorityChange}
                 placeholder={"Task priority"}/>
-            <span className="input-error">{this.state.errors.priority}</span>
+            <span className={cx("input-error")}>{this.state.errors.priority}</span>
           </div>
           <ButtonComponent
               text={"Add"}
               onClick={this.handleAddButtonClick}/>
           <div>{this.state.message}</div>
-          <div className="control-buttons">
+          <div className={cx("control-buttons")}>
             <ButtonComponent
                 text={"Priority sort"}
                 onClick={() => this.sortTasksBy("priority")}/>
