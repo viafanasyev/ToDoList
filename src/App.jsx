@@ -125,10 +125,6 @@ class ClassComponent extends React.Component {
     })
   };
 
-  componentDidMount() {
-
-  }
-
   render() {
     return (
         <div className={cx("app")}>
