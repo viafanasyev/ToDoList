@@ -29,8 +29,11 @@ const ButtonComponent = ({ text, onClick }) => {
 const TaskItemComponent = ({ task }) => {
   return (
       <div className={cx("task-item")}>
-        <div className={cx("task-item-overall")}>{task.id}. {task.name}. Priority: {task.priority}</div>
-        <span className={cx("task-item-description")}>{task.description}</span>
+        <div className={cx("task-item-overall")}>
+          <div className={cx("task-item-title")}>{task.name}</div>
+          <div className={cx("task-item-priority")}>{task.priority}</div>
+        </div>
+        <div className={cx("task-item-description")}>{task.description}</div>
       </div>
   );
 };
@@ -127,43 +130,47 @@ class ClassComponent extends React.Component {
   render() {
     return (
         <div className={cx("app")}>
-          <h1>To Do List</h1>
-          <div className={cx("input-task-name")}>
-            <TextInputComponent
-              value={this.state.inputTaskName}
-              onChange={this.handleTaskNameChange}
-              placeholder={"Task name"}/>
-            <span className={cx("input-error")}>{this.state.errors.name}</span>
-          </div>
-          <div className={cx("input-task-description")}>
-            <BigTextInputComponent
-                value={this.state.inputTaskDescription}
-                onChange={this.handleTaskDescriptionChange}
-                placeholder={"Task description"}/>
-            <span className={cx("input-error")}>{this.state.errors.description}</span>
-          </div>
-          <div className={cx("input-task-priority")}>
-            <TextInputComponent
-                value={this.state.inputTaskPriority}
-                onChange={this.handleTaskPriorityChange}
-                placeholder={"Task priority"}/>
-            <span className={cx("input-error")}>{this.state.errors.priority}</span>
-          </div>
-          <ButtonComponent
-              text={"Add"}
-              onClick={this.handleAddButtonClick}/>
-          <div>{this.state.message}</div>
-          <div className={cx("control-buttons")}>
+          <div className={cx("menu")}>
+            <h1>To Do List</h1>
+            <div className={cx("input-task-name")}>
+              <TextInputComponent
+                value={this.state.inputTaskName}
+                onChange={this.handleTaskNameChange}
+                placeholder={"Task name"}/>
+              <div className={cx("input-error")}>{this.state.errors.name}</div>
+            </div>
+            <div className={cx("input-task-description")}>
+              <BigTextInputComponent
+                  value={this.state.inputTaskDescription}
+                  onChange={this.handleTaskDescriptionChange}
+                  placeholder={"Task description"}/>
+              <div className={cx("input-error")}>{this.state.errors.description}</div>
+            </div>
+            <div className={cx("input-task-priority")}>
+              <TextInputComponent
+                  value={this.state.inputTaskPriority}
+                  onChange={this.handleTaskPriorityChange}
+                  placeholder={"Task priority"}/>
+              <div className={cx("input-error")}>{this.state.errors.priority}</div>
+            </div>
             <ButtonComponent
-                text={"Priority sort"}
-                onClick={() => this.sortTasksBy("priority")}/>
-            <ButtonComponent
-                text={"Name sort"}
-                onClick={() => this.sortTasksBy("name")}/>
+                text={"Add"}
+                onClick={this.handleAddButtonClick}/>
+            <div className={cx("control-buttons")}>
+              <ButtonComponent
+                  text={"Priority sort"}
+                  onClick={() => this.sortTasksBy("priority")}/>
+              <ButtonComponent
+                  text={"Name sort"}
+                  onClick={() => this.sortTasksBy("name")}/>
+            </div>
           </div>
-          <ul>
-            {this.state.tasks.map((task) => <li><TaskItemComponent task={task}/></li>)}
-          </ul>
+          <div className={cx("tasks-container")}>
+            <div className={cx("tasks-container-header")}>{this.state.message}</div>
+            <div className={cx("tasks-container-body")}>
+              {this.state.tasks.map((task) => <TaskItemComponent task={task}/>)}
+            </div>
+          </div>
         </div>
     );
   }
