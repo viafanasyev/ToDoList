@@ -61,8 +61,6 @@
     padding: 0;
     margin: 0;
 
-    // TODO: color textbox with error (using classnames)
-
     &:empty:after {
       content: '.';
       visibility: hidden;

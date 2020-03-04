@@ -6,15 +6,15 @@ import styles from "./App.module.scss";
 
 const cx = classnames.bind(styles);
 
-const TextInputComponent = ({ value, placeholder, onChange }) => {
+const TextInputComponent = ({ value, placeholder, onChange, withError }) => {
   return (
-      <input className={cx("text-input")} type="text" value={value} onChange={onChange} placeholder={placeholder}/>
+      <input className={cx("text-input", {[`text-input-with-error`]: withError})} type="text" value={value} onChange={onChange} placeholder={placeholder}/>
   );
 };
 
-const BigTextInputComponent = ({ value, placeholder, onChange }) => {
+const BigTextInputComponent = ({ value, placeholder, onChange, withError }) => {
   return (
-      <textarea className={cx("text-input", "text-input-big")} value={value} onChange={onChange} placeholder={placeholder}/>
+      <textarea className={cx("text-input", "text-input-big", {[`text-input-with-error`]: withError})} value={value} onChange={onChange} placeholder={placeholder}/>
   );
 };
 
@@ -69,6 +69,8 @@ class ClassComponent extends React.Component {
       // Check name length
       if (state.inputTaskName.length > MAX_NAME_LENGTH)
         state.errors.name = "Name is too long! (max " + MAX_NAME_LENGTH + " characters)";
+      if (state.inputTaskName.length === 0)
+        state.errors.name = "Empty name!";
 
       // If some errors - don't add new task
       if (Object.keys(state.errors).length > 0)
@@ -136,21 +138,24 @@ class ClassComponent extends React.Component {
               <TextInputComponent
                 value={this.state.inputTaskName}
                 onChange={this.handleTaskNameChange}
-                placeholder={"Task name"}/>
+                placeholder={"Task name"}
+                withError={this.state.errors.hasOwnProperty("name")}/>
               <div className={cx("input-error")}>{this.state.errors.name}</div>
             </div>
             <div className={cx("input-task-description")}>
               <BigTextInputComponent
                   value={this.state.inputTaskDescription}
                   onChange={this.handleTaskDescriptionChange}
-                  placeholder={"Task description"}/>
+                  placeholder={"Task description"}
+                  withError={this.state.errors.hasOwnProperty("description")}/>
               <div className={cx("input-error")}>{this.state.errors.description}</div>
             </div>
             <div className={cx("input-task-priority")}>
               <TextInputComponent
                   value={this.state.inputTaskPriority}
                   onChange={this.handleTaskPriorityChange}
-                  placeholder={"Task priority"}/>
+                  placeholder={"Task priority"}
+                  withError={this.state.errors.hasOwnProperty("priority")}/>
               <div className={cx("input-error")}>{this.state.errors.priority}</div>
             </div>
             <ButtonComponent
