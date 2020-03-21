@@ -1,7 +1,8 @@
 import React from "react";
-
+import { connect } from "react-redux";
+import { addTask, sortTasksBy } from "../actions";
 import classnames from "classnames/bind";
-
+import TaskList from "./TaskList/TaskList";
 import styles from "./App.module.scss";
 
 const cx = classnames.bind(styles);
@@ -26,36 +27,19 @@ const ButtonComponent = ({ text, onClick }) => {
   );
 };
 
-const TaskItemComponent = ({ task }) => {
-  return (
-      <div className={cx("task-item")}>
-        <div className={cx("task-item-overall")}>
-          <div className={cx("task-item-title")}>{task.name}</div>
-          <div className={cx("task-item-priority")}>{task.priority}</div>
-        </div>
-        <div className={cx("task-item-description")}>{task.description}</div>
-      </div>
-  );
-};
-
 const MAX_NAME_LENGTH = 50;
 
 class ClassComponent extends React.Component {
   state = {
-    message: "You have 0 tasks",
     inputTaskName: "",
     inputTaskDescription: "",
     inputTaskPriority: "",
-    tasks: [],
-    sorted: {
-      name: false,
-      priority: false
-    },
     errors: {}
   };
 
   handleAddButtonClick = () => {
-    this.setState(state => {
+    this.setState(oldState => {
+      const state = {...oldState};
 
       delete state.errors.name;
       delete state.errors.description;
@@ -77,19 +61,11 @@ class ClassComponent extends React.Component {
         return state.errors;
 
       // Add new task
-      state.tasks.push({
-        id: state.tasks.length + 1,
-        name: state.inputTaskName,
-        description: state.inputTaskDescription,
-        priority: parsedPriority
-      });
+      this.props.addTask(state.inputTaskName, state.inputTaskDescription, parsedPriority);
 
       // Update affected components
-      state.message = "You have " + state.tasks.length + " task" + (state.tasks.length === 1 ? "" : "s");
       state.inputTaskName = state.inputTaskDescription = state.inputTaskPriority = "";
-      state.sorted.priority = false;
-      state.sorted.name = false;
-      return state.message;
+      return state;
     });
   };
 
@@ -106,23 +82,7 @@ class ClassComponent extends React.Component {
   };
 
   sortTasksBy = (property) => {
-    this.setState(state => {
-
-      // Set that tasks are not sorted by other properties
-      for (let sortedProperty in state.sorted) {
-        if (sortedProperty !== property)
-          state.sorted[sortedProperty] = false;
-      }
-
-      // If not sorted - sort in increasing order
-      if (!state.sorted[property]) {
-        state.sorted[property] = true;
-        return state.tasks.sort((a, b) => a[property] < b[property] ? -1 : (a[property] > b[property] ? 1 : 0));
-      }
-      // Otherwise - sort in decreasing order
-      else
-        return state.tasks.reverse();
-    })
+    this.props.sortTasksBy(property);
   };
 
   render() {
@@ -166,19 +126,15 @@ class ClassComponent extends React.Component {
                   onClick={() => this.sortTasksBy("name")}/>
             </div>
           </div>
-          <div className={cx("tasks-container")}>
-            <div className={cx("tasks-container-header")}>{this.state.message}</div>
-            <div className={cx("tasks-container-body")}>
-              {this.state.tasks.map((task) => <TaskItemComponent task={task}/>)}
-            </div>
-          </div>
+          <TaskList/>
         </div>
     );
   }
 }
 
-const App = () => {
-  return <ClassComponent/>;
-};
+const mapDispatchToProps = dispatch => ({
+  addTask: (name, description, priority) => dispatch(addTask(name, description, priority)),
+  sortTasksBy: (property) => dispatch(sortTasksBy(property))
+});
 
-export default App;
+export default connect(null, mapDispatchToProps)(ClassComponent);
