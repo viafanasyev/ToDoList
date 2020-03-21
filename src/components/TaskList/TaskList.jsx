@@ -30,7 +30,7 @@ const TaskList = ({ tasks }) => {
         <div className={cx("tasks-container")}>
             <div className={cx("tasks-container-header")}>You have {tasks.length} tasks</div>
             <div className={cx("tasks-container-body")}>
-                {tasks.map((task) => <TaskItemComponent task={task}/>)}
+                {tasks.map((task) => <TaskItemComponent key={task.id} task={task}/>)}
             </div>
         </div>
     );
