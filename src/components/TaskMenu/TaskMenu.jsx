@@ -4,28 +4,10 @@ import { addTask, sortTasksBy } from "../../actions";
 import classnames from "classnames/bind";
 import styles from "./TaskMenu.module.scss";
 import { Link } from "react-router-dom";
+import { BigTextInputComponent, TextInputComponent } from "../TextInputs/TextInputs";
+import { ButtonComponent } from "../Buttons/Buttons";
 
 const cx = classnames.bind(styles);
-
-const TextInputComponent = ({ value, placeholder, onChange, withError }) => {
-    return (
-        <input className={cx("text-input", {[`text-input-with-error`]: withError})} type="text" value={value} onChange={onChange} placeholder={placeholder}/>
-    );
-};
-
-const BigTextInputComponent = ({ value, placeholder, onChange, withError }) => {
-    return (
-        <textarea className={cx("text-input", "text-input-big", {[`text-input-with-error`]: withError})} value={value} onChange={onChange} placeholder={placeholder}/>
-    );
-};
-
-const ButtonComponent = ({ text, onClick }) => {
-    return (
-        <button className={cx("button")} onClick={onClick}>
-            {text}
-        </button>
-    );
-};
 
 const MAX_NAME_LENGTH = 50;
 
@@ -107,41 +89,36 @@ class TaskMenuComponent extends React.Component {
             <div className={cx("menu")}>
                 <Link to="/projects/" className={cx("back-button")}>Back</Link>
                 <h1>To Do List</h1>
-                <div className={cx("input-task-name")}>
-                    <TextInputComponent
-                        value={this.state.inputTaskName}
-                        onChange={this.handleTaskNameChange}
-                        placeholder={"Task name"}
-                        withError={this.state.errors.hasOwnProperty("name")}/>
-                    <div className={cx("input-error")}>{this.state.errors.name}</div>
-                </div>
-                <div className={cx("input-task-description")}>
-                    <BigTextInputComponent
-                        value={this.state.inputTaskDescription}
-                        onChange={this.handleTaskDescriptionChange}
-                        placeholder={"Task description"}
-                        withError={this.state.errors.hasOwnProperty("description")}/>
-                    <div className={cx("input-error")}>{this.state.errors.description}</div>
-                </div>
-                <div className={cx("input-task-priority")}>
-                    <TextInputComponent
-                        value={this.state.inputTaskPriority}
-                        onChange={this.handleTaskPriorityChange}
-                        placeholder={"Task priority"}
-                        withError={this.state.errors.hasOwnProperty("priority")}/>
-                    <div className={cx("input-error")}>{this.state.errors.priority}</div>
-                </div>
+
+                <TextInputComponent
+                    value={this.state.inputTaskName}
+                    onChange={this.handleTaskNameChange}
+                    placeholder={"Task name"}
+                    withError={this.state.errors.hasOwnProperty("name")}
+                    errorMessage={this.state.errors.name}/>
+                <BigTextInputComponent
+                    value={this.state.inputTaskDescription}
+                    onChange={this.handleTaskDescriptionChange}
+                    placeholder={"Task description"}
+                    withError={this.state.errors.hasOwnProperty("description")}
+                    errorMessage={this.state.errors.description}/>
+                <TextInputComponent
+                    value={this.state.inputTaskPriority}
+                    onChange={this.handleTaskPriorityChange}
+                    placeholder={"Task priority"}
+                    withError={this.state.errors.hasOwnProperty("priority")}
+                    errorMessage={this.state.errors.priority}/>
+
                 <ButtonComponent
                     text={"Add"}
                     onClick={this.handleAddButtonClick}/>
-                <div className={cx("control-buttons")}>
-                    <ButtonComponent
-                        text={"Priority sort"}
-                        onClick={() => this.sortTasksBy("priority")}/>
-                    <ButtonComponent
-                        text={"Name sort"}
-                        onClick={() => this.sortTasksBy("name")}/>
-                </div>
+                <br/>
+                <ButtonComponent
+                    text={"Priority sort"}
+                    onClick={() => this.sortTasksBy("priority")}/>
+                <ButtonComponent
+                    text={"Name sort"}
+                    onClick={() => this.sortTasksBy("name")}/>
             </div>
         );
     }

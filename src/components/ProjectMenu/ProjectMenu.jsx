@@ -3,22 +3,10 @@ import { connect } from "react-redux";
 import { addProject } from "../../actions";
 import classnames from "classnames/bind";
 import styles from "./ProjectMenu.module.scss";
+import { TextInputComponent } from "../TextInputs/TextInputs";
+import { ButtonComponent } from "../Buttons/Buttons";
 
 const cx = classnames.bind(styles);
-
-const TextInputComponent = ({ value, placeholder, onChange, withError }) => {
-    return (
-        <input className={cx("text-input", {[`text-input-with-error`]: withError})} type="text" value={value} onChange={onChange} placeholder={placeholder}/>
-    );
-};
-
-const ButtonComponent = ({ text, onClick }) => {
-    return (
-        <button className={cx("button")} onClick={onClick}>
-            {text}
-        </button>
-    );
-};
 
 const MAX_NAME_LENGTH = 50;
 
@@ -61,14 +49,14 @@ class ProjectMenuComponent extends React.Component {
         return (
             <div className={cx("menu")}>
                 <h1>To Do List</h1>
-                <div className={cx("input-project-name")}>
-                    <TextInputComponent
-                        value={this.state.inputProjectName}
-                        onChange={this.handleProjectNameChange}
-                        placeholder={"Project name"}
-                        withError={this.state.errors.hasOwnProperty("name")}/>
-                    <div className={cx("input-error")}>{this.state.errors.name}</div>
-                </div>
+
+                <TextInputComponent
+                    value={this.state.inputProjectName}
+                    onChange={this.handleProjectNameChange}
+                    placeholder={"Project name"}
+                    withError={this.state.errors.hasOwnProperty("name")}
+                    errorMessage={this.state.errors.name}/>
+
                 <ButtonComponent
                     text={"Add"}
                     onClick={this.handleAddButtonClick}/>
