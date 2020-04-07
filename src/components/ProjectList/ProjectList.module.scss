@@ -1,4 +1,4 @@
-.tasks-container {
+.projects-container {
   // Dirty hack to make container fill EXACTLY all free space
   // Without width: 0, long text in task-description will resize tasks-container-body
   width: 0;
@@ -12,11 +12,6 @@
     font-size: larger;
     text-align: center;
     white-space: nowrap;
-
-    &-project-name {
-      padding: 0;
-      margin: 0 0 20px;
-    }
   }
 
   &-body {
@@ -27,7 +22,7 @@
     max-width: 800px;
     margin: 20px auto 0 auto;
 
-    .task-item {
+    .project-item {
       background: #fff;
       padding: 10px;
       border-radius: 15px;
@@ -38,14 +33,15 @@
         filter: drop-shadow(0px 4px 4px rgb(180, 180, 180));
       }
 
-      .task-item-overall {
+      .project-item-overall {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
 
-        .task-item-title {
+        .project-item-title {
           white-space: nowrap;
           overflow: hidden;
+          color: black;
           text-overflow: ellipsis;
 
           &::first-letter {
@@ -53,33 +49,21 @@
           }
 
           &:after {
-            // To create an empty space between title and priority
+            // To create an empty space between title and tasks count
             content: '...';
             visibility: hidden;
           }
         }
 
-        .task-item-priority {
+        .project-item-tasks-count {
           border-radius: 15px;
           padding: 3px;
+          color: black;
 
           &:before {
-            content: '!';
+            content: 'Tasks:\a0';
             color: rgba(0, 0, 0, 0.5);
           }
-        }
-      }
-
-      .task-item-description {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-left: 2em;
-        color: gray;
-
-        &:empty:after {
-          content: '.';
-          visibility: hidden;
         }
       }
     }

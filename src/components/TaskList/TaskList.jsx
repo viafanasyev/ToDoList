@@ -25,12 +25,15 @@ const TaskItemComponent = ({ task }) => {
     );
 };
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks, projectId, projectName }) => {
     return (
         <div className={cx("tasks-container")}>
-            <div className={cx("tasks-container-header")}>You have {tasks.length} tasks</div>
+            <div className={cx("tasks-container-header")}>
+                <h4 className={cx("tasks-container-header-project-name")}>{projectName}</h4>
+                You have {!tasks.hasOwnProperty(projectId) ? 0 : tasks[projectId].length} tasks
+            </div>
             <div className={cx("tasks-container-body")}>
-                {tasks.map((task) => <TaskItemComponent key={task.id} task={task}/>)}
+                {!tasks.hasOwnProperty(projectId) ? "" : tasks[projectId].map((task) => <TaskItemComponent key={task.id} task={task}/>)}
             </div>
         </div>
     );

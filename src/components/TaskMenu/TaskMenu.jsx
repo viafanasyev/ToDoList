@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { addTask, sortTasksBy } from "../../actions";
 import classnames from "classnames/bind";
 import styles from "./TaskMenu.module.scss";
+import { Link } from "react-router-dom";
 
 const cx = classnames.bind(styles);
 
@@ -33,12 +34,22 @@ class TaskMenuComponent extends React.Component {
         inputTaskName: "",
         inputTaskDescription: "",
         inputTaskPriority: "",
-        errors: {}
+        errors: {},
+        sorted: {
+            name: false,
+            priority: false
+        }
     };
 
     handleAddButtonClick = () => {
         this.setState(oldState => {
-            const state = {...oldState};
+            const state = {
+                ...oldState,
+                sorted: {
+                    name: false,
+                    priority: false
+                }
+            };
 
             delete state.errors.name;
             delete state.errors.description;
@@ -60,7 +71,7 @@ class TaskMenuComponent extends React.Component {
                 return state.errors;
 
             // Add new task
-            this.props.addTask(state.inputTaskName, state.inputTaskDescription, parsedPriority);
+            this.props.addTask(state.inputTaskName, state.inputTaskDescription, parsedPriority, this.props.projectId);
 
             // Update affected components
             state.inputTaskName = state.inputTaskDescription = state.inputTaskPriority = "";
@@ -80,9 +91,21 @@ class TaskMenuComponent extends React.Component {
         this.setState({inputTaskPriority: event.target.value});
     };
 
+    sortTasksBy = (property) => {
+        this.props.sortTasksBy(property, this.props.projectId, this.state.sorted[property]);
+        this.setState(oldState => {
+            const state = {
+                ...oldState,
+            };
+            state.sorted[property] = !state.sorted[property];
+            return state;
+        });
+    };
+
     render() {
         return (
             <div className={cx("menu")}>
+                <Link to="/projects/" className={cx("back-button")}>Back</Link>
                 <h1>To Do List</h1>
                 <div className={cx("input-task-name")}>
                     <TextInputComponent
@@ -114,10 +137,10 @@ class TaskMenuComponent extends React.Component {
                 <div className={cx("control-buttons")}>
                     <ButtonComponent
                         text={"Priority sort"}
-                        onClick={() => this.props.sortTasksBy("priority")}/>
+                        onClick={() => this.sortTasksBy("priority")}/>
                     <ButtonComponent
                         text={"Name sort"}
-                        onClick={() => this.props.sortTasksBy("name")}/>
+                        onClick={() => this.sortTasksBy("name")}/>
                 </div>
             </div>
         );
@@ -125,8 +148,8 @@ class TaskMenuComponent extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addTask: (name, description, priority) => dispatch(addTask(name, description, priority)),
-    sortTasksBy: (property) => dispatch(sortTasksBy(property))
+    addTask: (name, description, priority, projectId) => dispatch(addTask(name, description, priority, projectId)),
+    sortTasksBy: (property, projectId, isDescendingOrder) => dispatch(sortTasksBy(property, projectId, isDescendingOrder))
 });
 
 export default connect(null, mapDispatchToProps)(TaskMenuComponent);

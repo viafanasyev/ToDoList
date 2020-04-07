@@ -11,21 +11,6 @@
   border-right: 1px solid #eee;
   filter: drop-shadow(0 0 5px #bbb);
 
-  .back-button {
-    text-decoration: none;
-    color: black;
-    margin-top: 5px;
-    display: inline-block;
-
-    &::before {
-      content: '← ';
-    }
-  }
-
-  h1 {
-    margin-top: 0;
-  }
-
   .text-input {
     width: 340px;
     margin: 10px 0 10px 0;
@@ -64,10 +49,6 @@
       content: '.';
       visibility: hidden;
     }
-  }
-
-  .control-buttons {
-    margin-top: 25px;
   }
 }
 
