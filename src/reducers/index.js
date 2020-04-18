@@ -14,7 +14,6 @@ const reducer = (state = defaultState, action) => {
             };
 
             projectId = action.projectId;
-            console.log(projectId);
             if (!newState.tasks.hasOwnProperty(projectId)) {
                 newState.tasks[projectId] = [];
             }
@@ -24,10 +23,6 @@ const reducer = (state = defaultState, action) => {
                 description: action.description,
                 priority: action.priority
             });
-            console.log(newState.tasks);
-            console.log(newState.tasks[projectId][0]);
-            console.log(newState.tasks[projectId][1]);
-            console.log(newState.tasks[projectId].length);
 
             return newState;
         case 'ADD_PROJECT':
