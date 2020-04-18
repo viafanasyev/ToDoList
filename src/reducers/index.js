@@ -9,7 +9,7 @@ const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'ADD_TASK':
             newState = {
-                projects: [...state.projects],
+                ...state,
                 tasks: [...state.tasks]
             };
 
@@ -32,8 +32,8 @@ const reducer = (state = defaultState, action) => {
             return newState;
         case 'ADD_PROJECT':
             newState = {
-                projects: [...state.projects],
-                tasks: [...state.tasks]
+                ...state,
+                projects: [...state.projects]
             };
 
             newState.projects.push({
