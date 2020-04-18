@@ -8,6 +8,9 @@ import { connect } from "react-redux";
 
 const cx = classnames.bind(styles);
 
+export const getTasksNumber = (tasks, projectId) =>
+    !tasks.hasOwnProperty(projectId) ? 0 : tasks[projectId].length;
+
 const mapStateToProps = state => ({
     tasks: state.tasks,
     sorted: state.sorted
@@ -30,7 +33,7 @@ const TaskList = ({ tasks, projectId, projectName }) => {
         <div className={cx("tasks-container")}>
             <div className={cx("tasks-container-header")}>
                 <h4 className={cx("tasks-container-header-project-name")}>{projectName}</h4>
-                You have {!tasks.hasOwnProperty(projectId) ? 0 : tasks[projectId].length} tasks
+                You have {getTasksNumber(tasks, projectId)} tasks
             </div>
             <div className={cx("tasks-container-body")}>
                 {!tasks.hasOwnProperty(projectId) ? "" : tasks[projectId].map((task) => <TaskItemComponent key={task.id} task={task}/>)}
