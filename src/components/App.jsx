@@ -41,9 +41,9 @@ const Projects = () => {
     return (
         <div style={{
             "display": "flex",
-            "flex-direction": "row",
-            "justify-content": "space-between",
-            "padding-left": "400px"}}>
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "paddingLeft": "400px"}}>
             <ProjectMenu/>
             <ProjectList/>
         </div>
@@ -59,9 +59,9 @@ const Tasks = ({ match, projects }) => {
     return (
         <div style={{
             "display": "flex",
-            "flex-direction": "row",
-            "justify-content": "space-between",
-            "padding-left": "400px"}}>
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "paddingLeft": "400px"}}>
             <TaskMenu projectId={projectId}/>
             <TaskList projectId={projectId} projectName={projects[projectIndex].name}/>
         </div>
@@ -72,14 +72,14 @@ const NotFound = ({ text }) => {
     return (
         <div style={{
             "display": "flex",
-            "flex-direction": "column"}}>
+            "flexDirection": "column"}}>
             <h1 style={{
                 "display": "flex",
-                "flex-direction": "row",
-                "justify-content": "space-around"}}>404</h1>
+                "flexDirection": "row",
+                "justifyContent": "space-around"}}>404</h1>
             <h3 style={{"display": "flex",
-                "flex-direction": "row",
-                "justify-content": "space-around"}}>{text}</h3>
+                "flexDirection": "row",
+                "justifyContent": "space-around"}}>{text}</h3>
         </div>
     );
 };
