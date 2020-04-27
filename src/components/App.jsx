@@ -2,8 +2,8 @@ import React from "react";
 import classnames from "classnames/bind";
 import styles from "./App.module.scss";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import TasksWrapper from "./TasksWrapper/TasksWrapper";
-import ProjectsWrapper from "./ProjectsWrapper/ProjectsWrapper";
+import TasksWrapper from "./Tasks/TasksWrapper/TasksWrapper";
+import ProjectsWrapper from "./Projects/ProjectsWrapper/ProjectsWrapper";
 
 const cx = classnames.bind(styles);
 

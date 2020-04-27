@@ -1,10 +1,10 @@
 import React from "react";
-import { loadTasksSuccess } from "../../actions";
-import { NotFound } from "../NotFound/NotFound";
+import { loadTasksSuccess } from "../../../actions";
+import { NotFound } from "../../NotFound/NotFound";
 import TaskMenu from "../TaskMenu/TaskMenu";
 import TaskList from "../TaskList/TaskList";
 import { connect } from "react-redux";
-import { isSuccessfulResponse, request } from "../../requests";
+import { isSuccessfulResponse, request } from "../../../requests";
 
 class TasksWrapper extends React.Component {
     state = {

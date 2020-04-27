@@ -1,7 +1,7 @@
 import ProjectMenu from "../ProjectMenu/ProjectMenu";
 import ProjectList from "../ProjectList/ProjectList";
 import React from "react";
-import { loadProjects } from "../../actions";
+import { loadProjects } from "../../../actions";
 import { connect } from "react-redux";
 
 const ProjectsWrapper = ({ loadProjects }) => {

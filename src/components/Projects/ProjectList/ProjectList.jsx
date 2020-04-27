@@ -3,7 +3,7 @@ import classnames from "classnames/bind";
 import styles from "./ProjectList.module.scss";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getTasksNumber } from "../TaskList/TaskList";
+import { getTasksNumber } from "../../Tasks/TaskList/TaskList";
 
 const cx = classnames.bind(styles);
 

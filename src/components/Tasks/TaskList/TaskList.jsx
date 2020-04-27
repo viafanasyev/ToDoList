@@ -1,9 +1,6 @@
 import React from "react";
-
 import classnames from "classnames/bind";
-
 import styles from "./TaskList.module.scss";
-
 import { connect } from "react-redux";
 
 const cx = classnames.bind(styles);

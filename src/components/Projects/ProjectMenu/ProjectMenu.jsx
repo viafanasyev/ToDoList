@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addProject } from "../../actions";
+import { addProject } from "../../../actions";
 import classnames from "classnames/bind";
 import styles from "./ProjectMenu.module.scss";
-import { TextInputComponent } from "../TextInputs/TextInputs";
-import { ButtonComponent } from "../Buttons/Buttons";
+import { TextInputComponent } from "../../TextInputs/TextInputs";
+import { ButtonComponent } from "../../Buttons/Buttons";
 
 const cx = classnames.bind(styles);
 

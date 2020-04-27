@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addTask, sortTasksBy } from "../../actions";
+import { addTask, sortTasksBy } from "../../../actions";
 import classnames from "classnames/bind";
 import styles from "./TaskMenu.module.scss";
 import { Link } from "react-router-dom";
-import { BigTextInputComponent, TextInputComponent } from "../TextInputs/TextInputs";
-import { ButtonComponent } from "../Buttons/Buttons";
+import { BigTextInputComponent, TextInputComponent } from "../../TextInputs/TextInputs";
+import { ButtonComponent } from "../../Buttons/Buttons";
 
 const cx = classnames.bind(styles);
 
