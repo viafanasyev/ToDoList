@@ -1,5 +1,13 @@
 import { isSuccessfulResponse, request } from "../requests";
 
+export const actionType = Object.freeze({
+    ADD_TASK_SUCCESS: 'ADD_TASK_SUCCESS',
+    SORT_TASKS: 'SORT_TASKS',
+    ADD_PROJECT_SUCCESS: 'ADD_PROJECT_SUCCESS',
+    LOAD_PROJECTS_SUCCESS: 'LOAD_PROJECTS_SUCCESS',
+    LOAD_TASKS_SUCCESS: 'LOAD_TASKS_SUCCESS'
+});
+
 export const addTask = (name, description, priority, projectId) => (dispatch) => {
     request(`/projects/${projectId}/tasks/`, 'POST', { name, description, priority })
         .then(response => {
@@ -12,13 +20,13 @@ export const addTask = (name, description, priority, projectId) => (dispatch) =>
 };
 
 export const addTaskSuccess = (task, projectId) => ({
-    type: 'ADD_TASK_SUCCESS',
+    type: actionType.ADD_TASK_SUCCESS,
     task: task,
     projectId: projectId
 });
 
 export const sortTasksBy = (property, projectId, isDescendingOrder) => ({
-    type: 'SORT_TASKS',
+    type: actionType.SORT_TASKS,
     property: property,
     projectId: projectId,
     isDescendingOrder: isDescendingOrder
@@ -36,7 +44,7 @@ export const addProject = (name) => (dispatch) => {
 };
 
 export const addProjectSuccess = (project) => ({
-    type: 'ADD_PROJECT_SUCCESS',
+    type: actionType.ADD_PROJECT_SUCCESS,
     project: project
 });
 
@@ -52,7 +60,7 @@ export const loadProjects = () => (dispatch) => {
 };
 
 export const loadProjectsSuccess = (projects) => ({
-    type: 'LOAD_PROJECTS_SUCCESS',
+    type: actionType.LOAD_PROJECTS_SUCCESS,
     projects: projects
 });
 
@@ -68,7 +76,7 @@ export const loadTasks = (projectId) => (dispatch) => {
 };
 
 export const loadTasksSuccess = (tasks, projectId) => ({
-    type: 'LOAD_TASKS_SUCCESS',
+    type: actionType.LOAD_TASKS_SUCCESS,
     tasks: tasks,
     projectId: projectId
 });

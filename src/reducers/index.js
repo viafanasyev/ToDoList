@@ -1,3 +1,5 @@
+import { actionType } from "../actions";
+
 const defaultState = {
     projects: [],
     tasks: {}
@@ -7,7 +9,7 @@ const reducer = (state = defaultState, action) => {
     let newState;
     let projectId;
     switch (action.type) {
-        case 'ADD_TASK_SUCCESS':
+        case actionType.ADD_TASK_SUCCESS:
             return {
                 ...state,
                 tasks: {
@@ -18,7 +20,7 @@ const reducer = (state = defaultState, action) => {
                     ]
                 }
             };
-        case 'SORT_TASKS':
+        case actionType.SORT_TASKS:
             projectId = action.projectId;
             if (!state.tasks.hasOwnProperty(projectId))
                 return state;
@@ -38,7 +40,7 @@ const reducer = (state = defaultState, action) => {
                 newState.tasks[projectId].sort((a, b) => a[property] > b[property] ? -1 : (a[property] < b[property] ? 1 : 0));
 
             return newState;
-        case 'ADD_PROJECT_SUCCESS':
+        case actionType.ADD_PROJECT_SUCCESS:
             return {
                 ...state,
                 projects: [
@@ -46,12 +48,12 @@ const reducer = (state = defaultState, action) => {
                     action.project
                 ]
             };
-        case 'LOAD_PROJECTS_SUCCESS':
+        case actionType.LOAD_PROJECTS_SUCCESS:
             return {
                 ...state,
                 projects: action.projects
             };
-        case 'LOAD_TASKS_SUCCESS':
+        case actionType.LOAD_TASKS_SUCCESS:
             return {
                 ...state,
                 tasks: {
