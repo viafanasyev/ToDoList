@@ -38,9 +38,9 @@ class TaskMenuComponent extends React.Component {
             delete state.errors.priority;
 
             // Parse priority property
+            if (this.isInvalidPriority(state.inputTaskPriority))
+                state.errors.priority = "Invalid number! Should be 1, 2 or 3";
             const parsedPriority = Number(state.inputTaskPriority);
-            if (Number.isNaN(parsedPriority) || (state.inputTaskPriority === "") || (parsedPriority < 0))
-                state.errors.priority = "Invalid number!";
 
             // Check name length
             if (state.inputTaskName.length > MAX_NAME_LENGTH)
@@ -59,6 +59,11 @@ class TaskMenuComponent extends React.Component {
             state.inputTaskName = state.inputTaskDescription = state.inputTaskPriority = "";
             return state;
         });
+    };
+
+    isInvalidPriority(priorityString) {
+        const priority = Number(priorityString);
+        return Number.isNaN(priority) || (priorityString === "") || (priority < 1) || (priority > 3);
     };
 
     handleTaskNameChange = (event) => {
