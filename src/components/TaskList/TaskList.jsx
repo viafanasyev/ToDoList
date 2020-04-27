@@ -8,11 +8,11 @@ import { connect } from "react-redux";
 
 const cx = classnames.bind(styles);
 
-export const getTasksNumber = (tasks, projectId) =>
-    !tasks.hasOwnProperty(projectId) ? 0 : tasks[projectId].length;
+export const getTasksNumber = (tasks) =>
+    tasks === undefined ? 0 : tasks.length;
 
-const mapStateToProps = state => ({
-    tasks: state.tasks,
+const mapStateToProps = (state, ownProps) => ({
+    tasks: state.tasks[ownProps.projectId],
     sorted: state.sorted
 });
 
@@ -28,15 +28,15 @@ const TaskItemComponent = ({ task }) => {
     );
 };
 
-const TaskList = ({ tasks, projectId, projectName }) => {
+const TaskList = ({ tasks, projectName }) => {
     return (
         <div className={cx("tasks-container")}>
             <div className={cx("tasks-container-header")}>
                 <h4 className={cx("tasks-container-header-project-name")}>{projectName}</h4>
-                You have {getTasksNumber(tasks, projectId)} tasks
+                You have {getTasksNumber(tasks)} tasks
             </div>
             <div className={cx("tasks-container-body")}>
-                {!tasks.hasOwnProperty(projectId) ? "" : tasks[projectId].map((task) => <TaskItemComponent key={task.id} task={task}/>)}
+                {tasks === undefined ? "" : tasks.map((task) => <TaskItemComponent key={task.id} task={task}/>)}
             </div>
         </div>
     );

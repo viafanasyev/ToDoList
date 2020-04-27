@@ -35,7 +35,7 @@ const ProjectList = ({ projects, tasks }) => {
                     <ProjectItemComponent
                         key={project.id}
                         project={project}
-                        tasksNumber={getTasksNumber(tasks, project.id)}/>
+                        tasksNumber={getTasksNumber(tasks[project.id])}/>
                     )
                 }
             </div>
