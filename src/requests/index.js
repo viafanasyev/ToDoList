@@ -9,5 +9,3 @@ export const request = (url, method = 'GET', body) => {
         body: JSON.stringify(body)
     });
 };
-
-export const isSuccessfulResponse = (statusCode) => (statusCode / 100 === 2);

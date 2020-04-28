@@ -4,12 +4,12 @@ import { NotFound } from "../../NotFound/NotFound";
 import TaskMenu from "../TaskMenu/TaskMenu";
 import TaskList from "../TaskList/TaskList";
 import { connect } from "react-redux";
-import { isSuccessfulResponse, request } from "../../../requests";
+import { request } from "../../../requests";
 
 class TasksWrapper extends React.Component {
     state = {
         isFetching: true,
-        statusCode: null
+        isStatusOk: false
     };
 
     async componentDidMount() {
@@ -20,16 +20,16 @@ class TasksWrapper extends React.Component {
 
         try {
             const response = await request(`/projects/${this.props.projectId}/tasks/`);
-            const status = response.status;
+            const isStatusOk = response.ok;
 
-            this.setState({ isFetching: false, statusCode: status });
-            if (isSuccessfulResponse(status)) {
+            this.setState({ isFetching: false, isStatusOk });
+            if (isStatusOk) {
                 const tasks = await response.json();
                 this.props.loadTasksSuccess(tasks, this.props.projectId);
             }
         }
         catch (error) {
-            this.setState({ isFetching: false, statusCode: 404 });
+            this.setState({ isFetching: false, isStatusOk: false });
             console.log(error);
         }
     }
@@ -37,7 +37,7 @@ class TasksWrapper extends React.Component {
     render() {
         if (this.state.isFetching)
             return null;
-        else if (isSuccessfulResponse(this.state.statusCode))
+        else if (this.state.isStatusOk)
             return (
                 <div style={{
                     "display": "flex",

@@ -1,4 +1,4 @@
-import { isSuccessfulResponse, request } from "../requests";
+import { request } from "../requests";
 
 export const actionType = Object.freeze({
     ADD_TASK_SUCCESS: 'ADD_TASK_SUCCESS',
@@ -11,7 +11,7 @@ export const actionType = Object.freeze({
 export const addTask = (name, description, priority, projectId) => (dispatch) => {
     request(`/projects/${projectId}/tasks/`, 'POST', { name, description, priority })
         .then(response => {
-            if (isSuccessfulResponse(response.status))
+            if (response.ok)
                 return response.json();
         })
         .then(task => {
@@ -35,7 +35,7 @@ export const sortTasksBy = (property, projectId, isDescendingOrder) => ({
 export const addProject = (name) => (dispatch) => {
     request('/projects/', 'POST', { name })
         .then(response => {
-            if (isSuccessfulResponse(response.status))
+            if (response.ok)
                 return response.json();
         })
         .then(project => {
@@ -51,7 +51,7 @@ export const addProjectSuccess = (project) => ({
 export const loadProjects = () => (dispatch) => {
     request('/projects/')
         .then(response => {
-            if (isSuccessfulResponse(response.status))
+            if (response.ok)
                 return response.json();
         })
         .then(projects => {
@@ -67,7 +67,7 @@ export const loadProjectsSuccess = (projects) => ({
 export const loadTasks = (projectId) => (dispatch) => {
     request(`/projects/${projectId}/tasks/`)
         .then(response => {
-            if (isSuccessfulResponse(response.status))
+            if (response.ok)
                 return response.json();
         })
         .then(tasks => {
