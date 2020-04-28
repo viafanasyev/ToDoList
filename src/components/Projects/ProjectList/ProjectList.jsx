@@ -8,8 +8,8 @@ import { getTasksNumber } from "../../Tasks/TaskList/TaskList";
 const cx = classnames.bind(styles);
 
 const mapStateToProps = state => ({
-    projects: state.projects,
-    tasks: state.tasks
+    projects: state.todoReducer.projects,
+    tasks: state.todoReducer.tasks
 });
 
 const ProjectItemComponent = ({ project, tasksNumber }) => {

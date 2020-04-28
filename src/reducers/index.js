@@ -1,4 +1,6 @@
 import { actionType } from "../actions";
+import dialog from "./dialog";
+import { combineReducers } from "redux";
 
 const defaultState = {
     projects: [],
@@ -61,9 +63,36 @@ const reducer = (state = defaultState, action) => {
                     [action.projectId]: action.tasks
                 }
             };
+        case actionType.EDIT_TASK_SUCCESS:
+            projectId = action.projectId;
+            if (!state.tasks.hasOwnProperty(projectId))
+                return state;
+
+            newState = {
+                ...state,
+                tasks: {
+                    ...state.tasks,
+                    [projectId]: [...state.tasks[projectId]]
+                }
+            };
+
+            const i = newState.tasks[projectId].findIndex(task => task.id === action.taskId);
+            if (i !== -1) {
+                newState.tasks[projectId][i] = {
+                    id: action.taskId,
+                    name: action.name,
+                    description: action.description,
+                    priority: action.priority
+                };
+            }
+
+            return newState;
         default:
             return state
     }
 };
 
-export default reducer;
+export default combineReducers({
+    todoReducer: reducer,
+    dialogReducer: dialog
+});

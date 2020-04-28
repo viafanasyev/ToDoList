@@ -4,6 +4,7 @@ import styles from "./App.module.scss";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import TasksWrapper from "./Tasks/TasksWrapper/TasksWrapper";
 import ProjectsWrapper from "./Projects/ProjectsWrapper/ProjectsWrapper";
+import TaskEditDialog from "./Dialogs/TaskEditDialog/TaskEditDialog";
 
 const cx = classnames.bind(styles);
 
@@ -23,6 +24,7 @@ const App = () => (
 
                 <Redirect to="/"/>
             </Switch>
+            <TaskEditDialog/>
         </div>
     </BrowserRouter>
 );

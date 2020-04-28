@@ -11,6 +11,8 @@ const cx = classnames.bind(styles);
 
 const MAX_NAME_LENGTH = 50;
 
+// TODO: Add task editing with react-modal
+
 class TaskMenuComponent extends React.Component {
     state = {
         inputTaskName: "",
@@ -124,6 +126,8 @@ class TaskMenuComponent extends React.Component {
                 <ButtonComponent
                     text={"Name sort"}
                     onClick={() => this.sortTasksBy("name")}/>
+
+                <div className={cx("hint")}>Click task to edit it</div>
             </div>
         );
     }
