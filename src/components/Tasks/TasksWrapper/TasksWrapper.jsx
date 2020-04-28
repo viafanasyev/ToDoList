@@ -12,26 +12,30 @@ class TasksWrapper extends React.Component {
         statusCode: null
     };
 
-    componentDidMount() {
-        if (isNaN(this.props.projectId))
+    async componentDidMount() {
+        if (isNaN(this.props.projectId)) {
+            this.setState({ isFetching: false, statusCode: 404 });
             return;
+        }
 
-        // FIXME: Dirty way to check if project with given id exists
-        request(`/projects/${this.props.projectId}/tasks/`)
-            .then(response => {
-                this.setState({ isFetching: false, statusCode: response.status});
-                if (isSuccessfulResponse(response.status))
-                    return response.json();
-            })
-            .then(tasks => {
+        try {
+            const response = await request(`/projects/${this.props.projectId}/tasks/`);
+            const status = response.status;
+
+            this.setState({ isFetching: false, statusCode: status });
+            if (isSuccessfulResponse(status)) {
+                const tasks = await response.json();
                 this.props.loadTasksSuccess(tasks, this.props.projectId);
-            });
+            }
+        }
+        catch (error) {
+            this.setState({ isFetching: false, statusCode: 404 });
+            console.log(error);
+        }
     }
 
     render() {
-        if (isNaN(this.props.projectId))
-            return (<NotFound text={"Project with given id not found"}/>);
-        else if (this.state.isFetching)
+        if (this.state.isFetching)
             return null;
         else if (isSuccessfulResponse(this.state.statusCode))
             return (
