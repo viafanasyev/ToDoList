@@ -3,7 +3,6 @@ import classnames from "classnames/bind";
 import styles from "./ProjectList.module.scss";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getTasksNumber } from "../../Tasks/TaskList/TaskList";
 
 const cx = classnames.bind(styles);
 
@@ -35,7 +34,7 @@ const ProjectList = ({ projects, tasks }) => {
                     <ProjectItemComponent
                         key={project.id}
                         project={project}
-                        tasksNumber={getTasksNumber(tasks[project.id])}/>
+                        tasksNumber={project.tasksCount}/>
                     )
                 }
             </div>
