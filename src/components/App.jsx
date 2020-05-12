@@ -18,35 +18,54 @@ const mapStateToProps = state => ({
 });
 
 class App extends React.Component {
+    state = {
+        isFetching: true
+    };
+
     componentDidMount() {
         const token = localStorage.getItem("token");
         if (token)
             this.props.restoreSessionSuccess(token);
+        this.setState({ isFetching: false });
     }
 
     render() {
+        if (this.state.isFetching)
+            return null;
+
+        const isAuthorized = this.props.isAuthorized;
         return (
             <BrowserRouter>
                 <div className={cx("app")}>
-                    {this.props.isAuthorized ?
-                        <Switch>
-                            <Route exact path="/projects/"
-                                   component={(props) => <ProjectsWrapper {...props}/>}/>
-                            <Route path="/projects/:projectId/"
-                                   component={(props) => <TasksWrapper
-                                       projectId={Number(props.match.params.projectId)} {...props}/>}/>
+                    <Switch>
+                        <Route exact path="/">
+                            {!isAuthorized ? <Home/> : <Redirect to="/projects/"/>}
+                        </Route>
 
-                            <Redirect to="/projects"/>
-                        </Switch>
-                        :
-                        <Switch>
-                            <Route exact path="/" component={Home}/>
-                            <Route exact path="/sign-up" component={SignUp}/>
-                            <Route exact path="/sign-in" component={SignIn}/>
+                        <Route exact path="/sign-up">
+                            {!isAuthorized ? <SignUp/> : <Redirect to="/projects/"/>}
+                        </Route>
 
-                            <Redirect to="/"/>
-                        </Switch>
-                    }
+                        <Route exact path="/sign-in">
+                            {!isAuthorized ? <SignIn/> : <Redirect to="/projects/"/>}
+                        </Route>
+
+                        <Route exact path="/projects/"
+                               component={(props) =>
+                                   (isAuthorized
+                                       ? <ProjectsWrapper {...props}/>
+                                       : <Redirect to="/"/>
+                                   )}/>
+
+                        <Route path="/projects/:projectId/"
+                               component={(props) =>
+                                   (isAuthorized
+                                       ? <TasksWrapper projectId={Number(props.match.params.projectId)} {...props}/>
+                                       : <Redirect to="/"/>
+                                   )}/>
+
+                       <Redirect to="/"/>
+                    </Switch>
                     <TaskEditDialog/>
                 </div>
             </BrowserRouter>
