@@ -1,54 +1,98 @@
+import { actionType } from "../actions";
+import dialog from "./dialog";
+import { combineReducers } from "redux";
+
 const defaultState = {
-    message: "You have 0 tasks",
-    tasks: [],
-    sorted: {
-        name: false,
-        priority: false
-    }
+    projects: [],
+    tasks: {}
 };
 
-const tasks = (state = defaultState, action) => {
+const reducer = (state = defaultState, action) => {
+    let newState;
+    let projectId;
     switch (action.type) {
-        case 'ADD_TASK':
+        case actionType.ADD_TASK_SUCCESS:
             return {
                 ...state,
-                tasks: [
+                tasks: {
                     ...state.tasks,
-                    {
-                        id: action.id,
-                        name: action.name,
-                        description: action.description,
-                        priority: action.priority
-                    }
-                ],
-                sorted: {
-                    name: false,
-                    priority: false
+                    [action.projectId]: [
+                        ...state.tasks[action.projectId],
+                        action.task
+                    ]
                 }
             };
-        case 'SORT_TASKS':
-            const newState = {
+        case actionType.SORT_TASKS:
+            projectId = action.projectId;
+            if (!state.tasks.hasOwnProperty(projectId))
+                return state;
+
+            newState = {
                 ...state,
-                tasks: [...state.tasks]
+                tasks: {
+                    ...state.tasks,
+                    [projectId]: [...state.tasks[projectId]]
+                }
             };
+
             const property = action.property;
-            for (let sortedProperty in newState.sorted) {
-                if (sortedProperty !== property)
-                    newState.sorted[sortedProperty] = false;
+            if (!action.isDescendingOrder)
+                newState.tasks[projectId].sort((a, b) => a[property] < b[property] ? -1 : (a[property] > b[property] ? 1 : 0));
+            else
+                newState.tasks[projectId].sort((a, b) => a[property] > b[property] ? -1 : (a[property] < b[property] ? 1 : 0));
+
+            return newState;
+        case actionType.ADD_PROJECT_SUCCESS:
+            return {
+                ...state,
+                projects: [
+                    ...state.projects,
+                    action.project
+                ]
+            };
+        case actionType.LOAD_PROJECTS_SUCCESS:
+            return {
+                ...state,
+                projects: action.projects
+            };
+        case actionType.LOAD_TASKS_SUCCESS:
+            return {
+                ...state,
+                tasks: {
+                    ...state.tasks,
+                    [action.projectId]: action.tasks
+                }
+            };
+        case actionType.EDIT_TASK_SUCCESS:
+            projectId = action.projectId;
+            if (!state.tasks.hasOwnProperty(projectId))
+                return state;
+
+            newState = {
+                ...state,
+                tasks: {
+                    ...state.tasks,
+                    [projectId]: [...state.tasks[projectId]]
+                }
+            };
+
+            const i = newState.tasks[projectId].findIndex(task => task.id === action.taskId);
+            if (i !== -1) {
+                newState.tasks[projectId][i] = {
+                    id: action.taskId,
+                    name: action.name,
+                    description: action.description,
+                    priority: action.priority
+                };
             }
 
-            // If not sorted - sort in increasing order
-            if (!newState.sorted[property]) {
-                newState.sorted[property] = true;
-                newState.tasks.sort((a, b) => a[property] < b[property] ? -1 : (a[property] > b[property] ? 1 : 0));
-            }
-            // Otherwise - sort in decreasing order
-            else
-                newState.tasks.reverse();
             return newState;
         default:
             return state
     }
 };
 
-export default tasks;
+export default combineReducers({
+    todoReducer: reducer,
+    dialogReducer: dialog
+});

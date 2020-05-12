@@ -12,6 +12,11 @@
     font-size: larger;
     text-align: center;
     white-space: nowrap;
+
+    &-project-name {
+      padding: 0;
+      margin: 0 0 20px;
+    }
   }
 
   &-body {

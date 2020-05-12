@@ -1,0 +1,13 @@
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  background: #fbfbfb;
+  border-right: 1px solid #eee;
+  filter: drop-shadow(0 0 5px #bbb);
+}

@@ -1,0 +1,25 @@
+.task-edit-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50% - 0.5, -50% - 0.5);
+  text-align: center;
+  padding: 15px;
+  border-radius: 8px;
+  background: #fbfbfb;
+  border: 1px solid #bbb;
+  backdrop-filter: blur(3px);
+
+  // To prevent text selection
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+
+  &:focus {
+    outline: none;
+  }
+}
