@@ -12,7 +12,7 @@ const reducer = (state = defaultState, action) => {
                 ...state,
                 isAuthorized: action.isAuthorized
             };
-        case ActionType.SIGN_UP_SUCCESS:
+        case ActionType.AUTHENTICATION_SUCCESS:
             console.log(action.token);
             return {
                 ...state,

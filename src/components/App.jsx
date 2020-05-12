@@ -7,6 +7,7 @@ import ProjectsWrapper from "./Projects/ProjectsWrapper/ProjectsWrapper";
 import TaskEditDialog from "./Dialogs/TaskEditDialog/TaskEditDialog";
 import SignUp from "./Authentication/SignUp/SignUp";
 import { connect } from "react-redux";
+import SignIn from "./Authentication/SignIn/SignIn";
 
 const cx = classnames.bind(styles);
 
@@ -31,6 +32,7 @@ const App = ({ isAuthorized }) => (
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route exact path="/sign-up" component={SignUp}/>
+                    <Route exact path="/sign-in" component={SignIn}/>
 
                     <Redirect to="/"/>
                 </Switch>
@@ -43,7 +45,8 @@ const App = ({ isAuthorized }) => (
 const Home = () => (
     <div>
         <h1>Home</h1>
-        <Link to="/sign-up">Sign up</Link>
+        <div><Link to="/sign-up">Sign up</Link></div>
+        <div><Link to="/sign-in">Sign In</Link></div>
     </div>
 );
 
