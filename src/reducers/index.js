@@ -88,6 +88,11 @@ const reducer = (state = defaultState, action) => {
             }
 
             return newState;
+        case ActionType.SET_AUTHORIZED:
+            return {
+                ...state,
+                isAuthorized: action.isAuthorized
+            };
         default:
             return state
     }
