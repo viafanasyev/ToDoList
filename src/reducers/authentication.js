@@ -17,6 +17,9 @@ const reducer = (state = defaultState, action) => {
                 ...state,
                 isAuthorized: true
             };
+        case ActionType.SIGN_OUT:
+            localStorage.removeItem("token");
+            return defaultState;
         default:
             return state;
     }

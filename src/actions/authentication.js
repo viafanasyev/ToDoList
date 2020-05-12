@@ -2,7 +2,8 @@ import { request } from "../requests";
 
 export const ActionType = Object.freeze({
     SET_AUTHORIZED: 'SET_AUTHORIZED',
-    AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS'
+    AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
+    SIGN_OUT: 'SIGN_OUT'
 });
 
 export const signUp = (login, password) => (dispatch) => {
@@ -41,4 +42,8 @@ export const setAuthorized = (isAuthorized) => ({
 export const authenticationSuccess = (token) => ({
     type: ActionType.AUTHENTICATION_SUCCESS,
     token
+});
+
+export const signOut = () => ({
+    type: ActionType.SIGN_OUT
 });

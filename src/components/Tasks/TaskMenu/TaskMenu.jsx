@@ -6,6 +6,7 @@ import styles from "./TaskMenu.module.scss";
 import { Link } from "react-router-dom";
 import { BigTextInputComponent, TextInputComponent } from "../../TextInputs/TextInputs";
 import { ButtonComponent } from "../../Buttons/Buttons";
+import { signOut } from "../../../actions/authentication";
 
 const cx = classnames.bind(styles);
 
@@ -128,6 +129,12 @@ class TaskMenuComponent extends React.Component {
                     onClick={() => this.sortTasksBy("name")}/>
 
                 <div className={cx("hint")}>Click task to edit it</div>
+
+                <div className={cx("floor")}>
+                    <ButtonComponent
+                        text="Sign Out"
+                        onClick={this.props.signOut}/>
+                </div>
             </div>
         );
     }
@@ -135,7 +142,8 @@ class TaskMenuComponent extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
     addTask: (name, description, priority, projectId) => dispatch(addTask(name, description, priority, projectId)),
-    sortTasksBy: (property, projectId, isDescendingOrder) => dispatch(sortTasksBy(property, projectId, isDescendingOrder))
+    sortTasksBy: (property, projectId, isDescendingOrder) => dispatch(sortTasksBy(property, projectId, isDescendingOrder)),
+    signOut: () => dispatch(signOut())
 });
 
 export default connect(null, mapDispatchToProps)(TaskMenuComponent);

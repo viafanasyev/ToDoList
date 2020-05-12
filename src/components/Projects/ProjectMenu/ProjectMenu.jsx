@@ -5,6 +5,7 @@ import classnames from "classnames/bind";
 import styles from "./ProjectMenu.module.scss";
 import { TextInputComponent } from "../../TextInputs/TextInputs";
 import { ButtonComponent } from "../../Buttons/Buttons";
+import { signOut } from "../../../actions/authentication";
 
 const cx = classnames.bind(styles);
 
@@ -60,6 +61,12 @@ class ProjectMenuComponent extends React.Component {
                 <ButtonComponent
                     text={"Add"}
                     onClick={this.handleAddButtonClick}/>
+
+                <div className={cx("floor")}>
+                    <ButtonComponent
+                        text="Sign Out"
+                        onClick={this.props.signOut}/>
+                </div>
             </div>
         );
     }
@@ -67,6 +74,7 @@ class ProjectMenuComponent extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
     addProject: (name) => dispatch(addProject(name)),
+    signOut: () => dispatch(signOut())
 });
 
 export default connect(null, mapDispatchToProps)(ProjectMenuComponent);
