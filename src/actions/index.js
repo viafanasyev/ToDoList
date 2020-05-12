@@ -18,8 +18,8 @@ const getResultOrNonAuthorized = (response, dispatch) => {
     }
 };
 
-export const addTask = (name, description, priority, projectId) => (dispatch, getState) => {
-    request(`/projects/${projectId}/tasks/`, getState().authenticationReducer.token, 'POST', { name, description, priority })
+export const addTask = (name, description, priority, projectId) => (dispatch) => {
+    request(`/projects/${projectId}/tasks/`, 'POST', { name, description, priority })
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(task => {
             dispatch(addTaskSuccess(task, projectId));
@@ -39,8 +39,8 @@ export const sortTasksBy = (property, projectId, isDescendingOrder) => ({
     isDescendingOrder: isDescendingOrder
 });
 
-export const addProject = (name) => (dispatch, getState) => {
-    request('/projects/', getState().authenticationReducer.token, 'POST', { name })
+export const addProject = (name) => (dispatch) => {
+    request('/projects/', 'POST', { name })
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(project => {
             dispatch(addProjectSuccess(project));
@@ -52,8 +52,8 @@ export const addProjectSuccess = (project) => ({
     project: project
 });
 
-export const loadProjects = () => (dispatch, getState) => {
-    request('/projects/', getState().authenticationReducer.token)
+export const loadProjects = () => (dispatch) => {
+    request('/projects/')
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(projects => {
             dispatch(loadProjectsSuccess(projects));
@@ -65,8 +65,8 @@ export const loadProjectsSuccess = (projects) => ({
     projects: projects
 });
 
-export const loadTasks = (projectId) => (dispatch, getState) => {
-    request(`/projects/${projectId}/tasks/`, getState().authenticationReducer.token)
+export const loadTasks = (projectId) => (dispatch) => {
+    request(`/projects/${projectId}/tasks/`)
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(tasks => {
             dispatch(loadTasksSuccess(tasks, projectId));

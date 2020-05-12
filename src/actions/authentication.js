@@ -6,7 +6,7 @@ export const ActionType = Object.freeze({
 });
 
 export const signUp = (login, password) => (dispatch) => {
-    request('/register/', null, 'POST', { login, password })
+    request('/register/', 'POST', { login, password })
         .then(response => {
             if (response.ok)
                 return response.json();
@@ -20,7 +20,7 @@ export const signUp = (login, password) => (dispatch) => {
 };
 
 export const signIn = (login, password) => (dispatch) => {
-    request('/login/', null, 'POST', { login, password })
+    request('/login/', 'POST', { login, password })
         .then(response => {
             if (response.ok)
                 return response.json();

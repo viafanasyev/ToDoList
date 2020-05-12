@@ -1,8 +1,7 @@
 import { ActionType } from "../actions/authentication";
 
 const defaultState = {
-    isAuthorized: false,
-    token: ""
+    isAuthorized: false
 };
 
 const reducer = (state = defaultState, action) => {
@@ -13,11 +12,10 @@ const reducer = (state = defaultState, action) => {
                 isAuthorized: action.isAuthorized
             };
         case ActionType.AUTHENTICATION_SUCCESS:
-            console.log(action.token);
+            localStorage.setItem("token", action.token);
             return {
                 ...state,
-                isAuthorized: true,
-                token: action.token
+                isAuthorized: true
             };
         default:
             return state;

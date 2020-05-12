@@ -27,9 +27,9 @@ export const preEditTask = (name, description, priority) => ({
     priority: priority
 });
 
-export const editTask = (name, description, priority, projectId, taskId) => (dispatch, getState) => {
+export const editTask = (name, description, priority, projectId, taskId) => (dispatch) => {
     dispatch(closeDialog());
-    request(`/projects/${projectId}/tasks/${taskId}/`, getState().authenticationReducer.token, 'PUT', { name, description, priority, projectId })
+    request(`/projects/${projectId}/tasks/${taskId}/`, 'PUT', { name, description, priority, projectId })
         .then(response => {
             if (response.ok)
                 dispatch(editTaskSuccess(name, description, priority, projectId, taskId));

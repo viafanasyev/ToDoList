@@ -7,10 +7,6 @@ import { connect } from "react-redux";
 import { request } from "../../../requests";
 import PropTypes from "prop-types";
 
-const mapStateToProps = state => ({
-    token: state.authenticationReducer.token
-});
-
 class TasksWrapper extends React.Component {
     state = {
         isFetching: true,
@@ -24,7 +20,7 @@ class TasksWrapper extends React.Component {
         }
 
         try {
-            const response = await request(`/projects/${this.props.projectId}/tasks/`, this.props.token);
+            const response = await request(`/projects/${this.props.projectId}/tasks/`);
             const isStatusOk = response.ok;
 
             this.setState({ isFetching: false, isStatusOk });
@@ -64,8 +60,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 TasksWrapper.propTypes = {
-    token: PropTypes.string,
     loadTasksSuccess: PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TasksWrapper);
+export default connect(null, mapDispatchToProps)(TasksWrapper);

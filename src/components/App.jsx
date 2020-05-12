@@ -8,6 +8,8 @@ import TaskEditDialog from "./Dialogs/TaskEditDialog/TaskEditDialog";
 import SignUp from "./Authentication/SignUp/SignUp";
 import { connect } from "react-redux";
 import SignIn from "./Authentication/SignIn/SignIn";
+import PropTypes from "prop-types";
+import { authenticationSuccess } from "../actions/authentication";
 
 const cx = classnames.bind(styles);
 
@@ -15,32 +17,42 @@ const mapStateToProps = state => ({
     isAuthorized: state.authenticationReducer.isAuthorized
 });
 
-const App = ({ isAuthorized }) => (
-    <BrowserRouter>
-        <div className={cx("app")}>
-            {isAuthorized ?
-                <Switch>
-                    <Route exact path="/projects/"
-                           component={(props) => <ProjectsWrapper {...props}/>}/>
-                    <Route path="/projects/:projectId/"
-                           component={(props) => <TasksWrapper
-                               projectId={Number(props.match.params.projectId)} {...props}/>}/>
+class App extends React.Component {
+    componentDidMount() {
+        const token = localStorage.getItem("token");
+        if (token)
+            this.props.restoreSessionSuccess(token);
+    }
 
-                    <Redirect to="/projects"/>
-                </Switch>
-                :
-                <Switch>
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/sign-up" component={SignUp}/>
-                    <Route exact path="/sign-in" component={SignIn}/>
+    render() {
+        return (
+            <BrowserRouter>
+                <div className={cx("app")}>
+                    {this.props.isAuthorized ?
+                        <Switch>
+                            <Route exact path="/projects/"
+                                   component={(props) => <ProjectsWrapper {...props}/>}/>
+                            <Route path="/projects/:projectId/"
+                                   component={(props) => <TasksWrapper
+                                       projectId={Number(props.match.params.projectId)} {...props}/>}/>
 
-                    <Redirect to="/"/>
-                </Switch>
-            }
-            <TaskEditDialog/>
-        </div>
-    </BrowserRouter>
-);
+                            <Redirect to="/projects"/>
+                        </Switch>
+                        :
+                        <Switch>
+                            <Route exact path="/" component={Home}/>
+                            <Route exact path="/sign-up" component={SignUp}/>
+                            <Route exact path="/sign-in" component={SignIn}/>
+
+                            <Redirect to="/"/>
+                        </Switch>
+                    }
+                    <TaskEditDialog/>
+                </div>
+            </BrowserRouter>
+        );
+    }
+}
 
 const Home = () => (
     <div>
@@ -50,4 +62,13 @@ const Home = () => (
     </div>
 );
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+    restoreSessionSuccess: (token) => dispatch(authenticationSuccess(token))
+});
+
+App.propTypes = {
+    isAuthorized: PropTypes.bool,
+    restoreSessionSuccess: PropTypes.func
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
