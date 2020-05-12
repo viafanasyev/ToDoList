@@ -4,12 +4,17 @@ import styles from "./SignUp.module.scss";
 import { connect } from "react-redux";
 import { TextInputComponent } from "../../TextInputs/TextInputs";
 import { ButtonComponent } from "../../Buttons/Buttons";
+import PropTypes from "prop-types";
+import { signUp } from "../../../actions/authentication";
 
 const cx = classnames.bind(styles);
 
 const mapStateToProps = state => ({
 
 });
+
+const USERNAME_MIN_LENGTH = 4;
+const PASSWORD_MIN_LENGTH = 6;
 
 class SignUp extends React.Component {
     state = {
@@ -29,17 +34,19 @@ class SignUp extends React.Component {
             delete state.errors.password;
             delete state.errors.passwordConfirmation;
 
-            if (state.username.length === 0)
-                state.errors.username = "Username can't be empty";
+            if (state.username.length < USERNAME_MIN_LENGTH)
+                state.errors.username = `Username should be at least ${USERNAME_MIN_LENGTH} characters long`;
 
-            if (state.password.length === 0)
-                state.errors.password = "Password can't be empty";
+            if (state.password.length < PASSWORD_MIN_LENGTH)
+                state.errors.password = `Password should be at least ${PASSWORD_MIN_LENGTH} characters long`;
 
             if (state.password !== state.passwordConfirmation)
                 state.errors.passwordConfirmation = "Passwords don't match";
 
             if (Object.keys(state.errors).length > 0)
                 return state;
+
+            this.props.signUp(state.username, state.password);
 
             return state;
         });
@@ -88,7 +95,11 @@ class SignUp extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-
+    signUp: (username, password) => dispatch(signUp(username, password))
 });
+
+SignUp.propTypes = {
+    signUp: PropTypes.func
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

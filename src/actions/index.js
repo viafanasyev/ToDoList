@@ -1,4 +1,5 @@
 import { request } from "../requests";
+import { setAuthorized } from "./authentication";
 
 export const ActionType = Object.freeze({
     ADD_TASK_SUCCESS: 'ADD_TASK_SUCCESS',
@@ -6,8 +7,7 @@ export const ActionType = Object.freeze({
     ADD_PROJECT_SUCCESS: 'ADD_PROJECT_SUCCESS',
     LOAD_PROJECTS_SUCCESS: 'LOAD_PROJECTS_SUCCESS',
     LOAD_TASKS_SUCCESS: 'LOAD_TASKS_SUCCESS',
-    EDIT_TASK_SUCCESS: 'EDIT_TASK_SUCCESS',
-    SET_AUTHORIZED: 'SET_AUTHORIZED'
+    EDIT_TASK_SUCCESS: 'EDIT_TASK_SUCCESS'
 });
 
 const getResultOrNonAuthorized = (response, dispatch) => {
@@ -18,8 +18,8 @@ const getResultOrNonAuthorized = (response, dispatch) => {
     }
 };
 
-export const addTask = (name, description, priority, projectId) => (dispatch) => {
-    request(`/projects/${projectId}/tasks/`, 'POST', { name, description, priority })
+export const addTask = (name, description, priority, projectId) => (dispatch, getState) => {
+    request(`/projects/${projectId}/tasks/`, getState().authenticationReducer.token, 'POST', { name, description, priority })
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(task => {
             dispatch(addTaskSuccess(task, projectId));
@@ -39,8 +39,8 @@ export const sortTasksBy = (property, projectId, isDescendingOrder) => ({
     isDescendingOrder: isDescendingOrder
 });
 
-export const addProject = (name) => (dispatch) => {
-    request('/projects/', 'POST', { name })
+export const addProject = (name) => (dispatch, getState) => {
+    request('/projects/', getState().authenticationReducer.token, 'POST', { name })
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(project => {
             dispatch(addProjectSuccess(project));
@@ -52,8 +52,8 @@ export const addProjectSuccess = (project) => ({
     project: project
 });
 
-export const loadProjects = () => (dispatch) => {
-    request('/projects/')
+export const loadProjects = () => (dispatch, getState) => {
+    request('/projects/', getState().authenticationReducer.token)
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(projects => {
             dispatch(loadProjectsSuccess(projects));
@@ -65,8 +65,8 @@ export const loadProjectsSuccess = (projects) => ({
     projects: projects
 });
 
-export const loadTasks = (projectId) => (dispatch) => {
-    request(`/projects/${projectId}/tasks/`)
+export const loadTasks = (projectId) => (dispatch, getState) => {
+    request(`/projects/${projectId}/tasks/`, getState().authenticationReducer.token)
         .then(response => getResultOrNonAuthorized(response, dispatch))
         .then(tasks => {
             dispatch(loadTasksSuccess(tasks, projectId));
@@ -86,9 +86,4 @@ export const editTaskSuccess = (name, description, priority, projectId, taskId) 
     priority: priority,
     taskId: taskId,
     projectId: projectId
-});
-
-export const setAuthorized = (isAuthorized) => ({
-    type: ActionType.SET_AUTHORIZED,
-    isAuthorized
 });

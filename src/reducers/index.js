@@ -1,11 +1,11 @@
 import { ActionType } from "../actions";
 import dialog from "./dialog";
+import authentication from "./authentication";
 import { combineReducers } from "redux";
 
 const defaultState = {
     projects: [],
-    tasks: {},
-    isAuthorized: false
+    tasks: {}
 };
 
 const reducer = (state = defaultState, action) => {
@@ -100,5 +100,6 @@ const reducer = (state = defaultState, action) => {
 
 export default combineReducers({
     todoReducer: reducer,
-    dialogReducer: dialog
+    dialogReducer: dialog,
+    authenticationReducer: authentication
 });

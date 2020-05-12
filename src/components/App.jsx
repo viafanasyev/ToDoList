@@ -11,24 +11,30 @@ import { connect } from "react-redux";
 const cx = classnames.bind(styles);
 
 const mapStateToProps = state => ({
-    isAuthorized: state.todoReducer.isAuthorized
+    isAuthorized: state.authenticationReducer.isAuthorized
 });
 
 const App = ({ isAuthorized }) => (
     <BrowserRouter>
         <div className={cx("app")}>
-            <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/sign-up" component={SignUp}/>
-                {!isAuthorized ? <Redirect to="/"/> : null}
-                <Route exact path="/projects/"
-                       component={(props) => <ProjectsWrapper {...props}/>}/>
-                <Route path="/projects/:projectId/"
-                       component={(props) => <TasksWrapper
-                           projectId={Number(props.match.params.projectId)} {...props}/>}/>
+            {isAuthorized ?
+                <Switch>
+                    <Route exact path="/projects/"
+                           component={(props) => <ProjectsWrapper {...props}/>}/>
+                    <Route path="/projects/:projectId/"
+                           component={(props) => <TasksWrapper
+                               projectId={Number(props.match.params.projectId)} {...props}/>}/>
 
-                <Redirect to="/"/>
-            </Switch>
+                    <Redirect to="/projects"/>
+                </Switch>
+                :
+                <Switch>
+                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/sign-up" component={SignUp}/>
+
+                    <Redirect to="/"/>
+                </Switch>
+            }
             <TaskEditDialog/>
         </div>
     </BrowserRouter>
