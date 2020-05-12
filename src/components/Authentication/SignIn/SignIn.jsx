@@ -20,7 +20,9 @@ class SignIn extends React.Component {
         errors: {}
     };
 
-    handleSignUpButtonClick = () => {
+    handleSubmit = (e) => {
+        e.preventDefault();
+
         this.setState(oldState => {
             const state = {
                 ...oldState
@@ -52,7 +54,7 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <div className={cx("sign-in-form")}>
+            <form className={cx("sign-in-form")} onSubmit={this.handleSubmit}>
 
                 <h2>Sign In</h2>
 
@@ -76,8 +78,8 @@ class SignIn extends React.Component {
 
                 <ButtonComponent
                     text={"Sign In"}
-                    onClick={this.handleSignUpButtonClick}/>
-            </div>
+                    onClick={this.handleSubmit}/>
+            </form>
         );
     }
 }
