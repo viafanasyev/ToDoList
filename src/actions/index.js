@@ -1,6 +1,6 @@
 import { request } from "../requests";
 
-export const actionType = Object.freeze({
+export const ActionType = Object.freeze({
     ADD_TASK_SUCCESS: 'ADD_TASK_SUCCESS',
     SORT_TASKS: 'SORT_TASKS',
     ADD_PROJECT_SUCCESS: 'ADD_PROJECT_SUCCESS',
@@ -21,13 +21,13 @@ export const addTask = (name, description, priority, projectId) => (dispatch) =>
 };
 
 export const addTaskSuccess = (task, projectId) => ({
-    type: actionType.ADD_TASK_SUCCESS,
+    type: ActionType.ADD_TASK_SUCCESS,
     task: task,
     projectId: projectId
 });
 
 export const sortTasksBy = (property, projectId, isDescendingOrder) => ({
-    type: actionType.SORT_TASKS,
+    type: ActionType.SORT_TASKS,
     property: property,
     projectId: projectId,
     isDescendingOrder: isDescendingOrder
@@ -45,7 +45,7 @@ export const addProject = (name) => (dispatch) => {
 };
 
 export const addProjectSuccess = (project) => ({
-    type: actionType.ADD_PROJECT_SUCCESS,
+    type: ActionType.ADD_PROJECT_SUCCESS,
     project: project
 });
 
@@ -61,7 +61,7 @@ export const loadProjects = () => (dispatch) => {
 };
 
 export const loadProjectsSuccess = (projects) => ({
-    type: actionType.LOAD_PROJECTS_SUCCESS,
+    type: ActionType.LOAD_PROJECTS_SUCCESS,
     projects: projects
 });
 
@@ -77,13 +77,13 @@ export const loadTasks = (projectId) => (dispatch) => {
 };
 
 export const loadTasksSuccess = (tasks, projectId) => ({
-    type: actionType.LOAD_TASKS_SUCCESS,
+    type: ActionType.LOAD_TASKS_SUCCESS,
     tasks: tasks,
     projectId: projectId
 });
 
 export const editTaskSuccess = (name, description, priority, projectId, taskId) => ({
-    type: actionType.EDIT_TASK_SUCCESS,
+    type: ActionType.EDIT_TASK_SUCCESS,
     name: name,
     description: description,
     priority: priority,
