@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames/bind";
 import styles from "./App.module.scss";
-import { BrowserRouter, Link, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, Redirect, Route, Switch, useHistory } from "react-router-dom";
 import TasksWrapper from "./Tasks/TasksWrapper/TasksWrapper";
 import ProjectsWrapper from "./Projects/ProjectsWrapper/ProjectsWrapper";
 import TaskEditDialog from "./Dialogs/TaskEditDialog/TaskEditDialog";
@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import SignIn from "./Authentication/SignIn/SignIn";
 import PropTypes from "prop-types";
 import { authenticationSuccess } from "../actions/authentication";
+import { ButtonComponent } from "./Buttons/Buttons";
 
 const cx = classnames.bind(styles);
 
@@ -73,13 +74,22 @@ class App extends React.Component {
     }
 }
 
-const Home = () => (
-    <div>
-        <h1>Home</h1>
-        <div><Link to="/sign-up">Sign up</Link></div>
-        <div><Link to="/sign-in">Sign In</Link></div>
-    </div>
-);
+const Home = () => {
+    const history = useHistory();
+    return (
+        <div className={cx("home-wrapper")}>
+            <h1 className={cx("home-header")}>Home</h1>
+            <div className={cx("home-auth-buttons")}>
+                <ButtonComponent
+                    text="Sign Up"
+                    onClick={() => history.push("/sign-up")}/>
+                <ButtonComponent
+                    text="Sign In"
+                    onClick={() => history.push("/sign-in")}/>
+            </div>
+        </div>
+    );
+};
 
 const mapDispatchToProps = dispatch => ({
     restoreSessionSuccess: (token) => dispatch(authenticationSuccess(token))
