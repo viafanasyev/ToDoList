@@ -15,7 +15,7 @@ class TasksWrapper extends React.Component {
 
     async componentDidMount() {
         if (isNaN(this.props.projectId)) {
-            this.setState({ isFetching: false, statusCode: 404 });
+            this.setState({ isFetching: false, isStatusOk: false });
             return;
         }
 

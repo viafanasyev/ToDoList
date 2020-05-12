@@ -12,8 +12,6 @@ const cx = classnames.bind(styles);
 
 const MAX_NAME_LENGTH = 50;
 
-// TODO: Add task editing with react-modal
-
 class TaskMenuComponent extends React.Component {
     state = {
         inputTaskName: "",
