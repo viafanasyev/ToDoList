@@ -4,7 +4,8 @@ import { combineReducers } from "redux";
 
 const defaultState = {
     projects: [],
-    tasks: {}
+    tasks: {},
+    isAuthorized: false
 };
 
 const reducer = (state = defaultState, action) => {

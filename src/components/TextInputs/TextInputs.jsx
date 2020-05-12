@@ -4,10 +4,10 @@ import styles from "./TextInputs.module.scss";
 
 const cx = classnames.bind(styles);
 
-export const TextInputComponent = ({ value, placeholder, onChange, withError, errorMessage }) => {
+export const TextInputComponent = ({ value, placeholder, onChange, withError, errorMessage, ...rest}) => {
     return (
         <div>
-            <input className={cx("text-input", {[`text-input-with-error`]: withError})} type="text" value={value} onChange={onChange} placeholder={placeholder}/>
+            <input className={cx("text-input", {[`text-input-with-error`]: withError})} value={value} onChange={onChange} placeholder={placeholder} {...rest}/>
             <div className={cx("input-error")}>{errorMessage}</div>
         </div>
     );
