@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { TextInputComponent } from "../../TextInputs/TextInputs";
 import { ButtonComponent } from "../../Buttons/Buttons";
 import PropTypes from "prop-types";
-import { signIn } from "../../../actions/authentication";
+import { clearAuthErrorMessages, signIn } from "../../../actions/authentication";
 
 const cx = classnames.bind(styles);
 
 const mapStateToProps = state => ({
-
+    authErrors: state.authenticationReducer.signInErrors
 });
 
 class SignIn extends React.Component {
@@ -45,7 +45,9 @@ class SignIn extends React.Component {
     };
 
     handleInputChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ [event.target.name]: event.target.value, errors: {} });
+        if (this.props.authErrors !== {})
+            this.props.clearErrors();
     };
 
     render() {
@@ -70,6 +72,8 @@ class SignIn extends React.Component {
                     withError={this.state.errors.hasOwnProperty("password")}
                     errorMessage={this.state.errors.password}/>
 
+                <div className={cx("error-message")}>{this.props.authErrors.any}</div>
+
                 <ButtonComponent
                     text={"Sign In"}
                     onClick={this.handleSignUpButtonClick}/>
@@ -79,11 +83,14 @@ class SignIn extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    signIn: (username, password) => dispatch(signIn(username, password))
+    signIn: (username, password) => dispatch(signIn(username, password)),
+    clearErrors: () => dispatch(clearAuthErrorMessages())
 });
 
 SignIn.propTypes = {
-    signIn: PropTypes.func
+    signIn: PropTypes.func,
+    clearErrors: PropTypes.func,
+    authErrors: PropTypes.objectOf(PropTypes.string)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

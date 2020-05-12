@@ -3,7 +3,10 @@ import { request } from "../requests";
 export const ActionType = Object.freeze({
     SET_NOT_AUTHENTICATED: 'SET_NOT_AUTHENTICATED',
     AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
-    SIGN_OUT: 'SIGN_OUT'
+    SIGN_OUT: 'SIGN_OUT',
+    SIGN_UP_FAIL: 'SIGN_UP_FAIL',
+    SIGN_IN_FAIL: 'SIGN_IN_FAIL',
+    CLEAR_AUTH_ERROR_MESSAGES: 'CLEAR_AUTH_ERROR_MESSAGES'
 });
 
 export const signUp = (login, password) => (dispatch) => {
@@ -12,7 +15,7 @@ export const signUp = (login, password) => (dispatch) => {
             if (response.ok)
                 return response.json();
             else
-                alert('Name is already taken'); // TODO: Show this error in SignUp form
+                dispatch(signUpFail("username", "Name is already taken"));
         })
         .then(authResult => {
             if (authResult)
@@ -26,7 +29,7 @@ export const signIn = (login, password) => (dispatch) => {
             if (response.ok)
                 return response.json();
             else
-                alert('Invalid credentials'); // TODO: Show this error in SignIn form
+                dispatch(signInFail("any", "Invalid username or password"));
         })
         .then(authResult => {
             if (authResult)
@@ -45,4 +48,20 @@ export const authenticationSuccess = (token) => ({
 
 export const signOut = () => ({
     type: ActionType.SIGN_OUT
+});
+
+const signUpFail = (field, errorMessage) => ({
+    type: ActionType.SIGN_UP_FAIL,
+    field,
+    errorMessage
+});
+
+const signInFail = (field, errorMessage) => ({
+    type: ActionType.SIGN_IN_FAIL,
+    field,
+    errorMessage
+});
+
+export const clearAuthErrorMessages = () => ({
+    type: ActionType.CLEAR_AUTH_ERROR_MESSAGES
 });

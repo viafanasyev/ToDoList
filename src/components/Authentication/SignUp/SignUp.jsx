@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { TextInputComponent } from "../../TextInputs/TextInputs";
 import { ButtonComponent } from "../../Buttons/Buttons";
 import PropTypes from "prop-types";
-import { signUp } from "../../../actions/authentication";
+import { clearAuthErrorMessages, signUp } from "../../../actions/authentication";
 
 const cx = classnames.bind(styles);
 
 const mapStateToProps = state => ({
-
+    authErrors: state.authenticationReducer.signUpErrors
 });
 
 const USERNAME_MIN_LENGTH = 4;
@@ -53,7 +53,9 @@ class SignUp extends React.Component {
     };
 
     handleInputChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ [event.target.name]: event.target.value, errors: {} });
+        if (this.props.authErrors !== {})
+            this.props.clearErrors();
     };
 
     render() {
@@ -67,8 +69,11 @@ class SignUp extends React.Component {
                     value={this.state.username}
                     onChange={this.handleInputChange}
                     placeholder={"Username"}
-                    withError={this.state.errors.hasOwnProperty("username")}
-                    errorMessage={this.state.errors.username}/>
+                    withError={this.state.errors.hasOwnProperty("username")
+                        || this.props.authErrors.hasOwnProperty("username")}
+                    errorMessage={this.state.errors.hasOwnProperty("username")
+                        ? this.state.errors.username
+                        : this.props.authErrors.username}/>
                 <TextInputComponent
                     name="password"
                     type="password"
@@ -95,11 +100,13 @@ class SignUp extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    signUp: (username, password) => dispatch(signUp(username, password))
+    signUp: (username, password) => dispatch(signUp(username, password)),
+    clearErrors: () => dispatch(clearAuthErrorMessages())
 });
 
 SignUp.propTypes = {
-    signUp: PropTypes.func
+    signUp: PropTypes.func,
+    authErrors: PropTypes.objectOf(PropTypes.string)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
