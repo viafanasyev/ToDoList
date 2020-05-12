@@ -1,5 +1,5 @@
 import { request } from "../requests";
-import { setAuthorized } from "./authentication";
+import { setNotAuthenticated } from "./authentication";
 
 export const ActionType = Object.freeze({
     ADD_TASK_SUCCESS: 'ADD_TASK_SUCCESS',
@@ -14,7 +14,7 @@ const getResultOrNonAuthorized = (response, dispatch) => {
     if (response.ok) {
         return response.json();
     } else if (response.status === 401) {
-        dispatch(setAuthorized(false));
+        dispatch(setNotAuthenticated());
     }
 };
 

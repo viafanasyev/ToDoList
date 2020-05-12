@@ -14,7 +14,7 @@ import { authenticationSuccess } from "../actions/authentication";
 const cx = classnames.bind(styles);
 
 const mapStateToProps = state => ({
-    isAuthorized: state.authenticationReducer.isAuthorized
+    isAuthenticated: state.authenticationReducer.isAuthenticated
 });
 
 class App extends React.Component {
@@ -33,33 +33,33 @@ class App extends React.Component {
         if (this.state.isFetching)
             return null;
 
-        const isAuthorized = this.props.isAuthorized;
+        const isAuthenticated = this.props.isAuthenticated;
         return (
             <BrowserRouter>
                 <div className={cx("app")}>
                     <Switch>
                         <Route exact path="/">
-                            {!isAuthorized ? <Home/> : <Redirect to="/projects/"/>}
+                            {!isAuthenticated ? <Home/> : <Redirect to="/projects/"/>}
                         </Route>
 
                         <Route exact path="/sign-up">
-                            {!isAuthorized ? <SignUp/> : <Redirect to="/projects/"/>}
+                            {!isAuthenticated ? <SignUp/> : <Redirect to="/projects/"/>}
                         </Route>
 
                         <Route exact path="/sign-in">
-                            {!isAuthorized ? <SignIn/> : <Redirect to="/projects/"/>}
+                            {!isAuthenticated ? <SignIn/> : <Redirect to="/projects/"/>}
                         </Route>
 
                         <Route exact path="/projects/"
                                component={(props) =>
-                                   (isAuthorized
+                                   (isAuthenticated
                                        ? <ProjectsWrapper {...props}/>
                                        : <Redirect to="/"/>
                                    )}/>
 
                         <Route path="/projects/:projectId/"
                                component={(props) =>
-                                   (isAuthorized
+                                   (isAuthenticated
                                        ? <TasksWrapper projectId={Number(props.match.params.projectId)} {...props}/>
                                        : <Redirect to="/"/>
                                    )}/>
@@ -86,7 +86,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 App.propTypes = {
-    isAuthorized: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
     restoreSessionSuccess: PropTypes.func
 };
 

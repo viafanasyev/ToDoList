@@ -1,5 +1,6 @@
 import { request } from "../requests";
 import { editTaskSuccess } from "./index";
+import { setNotAuthenticated } from "./authentication";
 
 export const ActionType = Object.freeze({
     START_DIALOG_FOR_RESULT: 'START_DIALOG_FOR_RESULT',
@@ -31,7 +32,10 @@ export const editTask = (name, description, priority, projectId, taskId) => (dis
     dispatch(closeDialog());
     request(`/projects/${projectId}/tasks/${taskId}/`, 'PUT', { name, description, priority, projectId })
         .then(response => {
-            if (response.ok)
+            if (response.ok) {
                 dispatch(editTaskSuccess(name, description, priority, projectId, taskId));
+            } else if (response.status === 401) {
+                dispatch(setNotAuthenticated());
+            }
         });
 };

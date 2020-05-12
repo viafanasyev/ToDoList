@@ -1,21 +1,18 @@
 import { ActionType } from "../actions/authentication";
 
 const defaultState = {
-    isAuthorized: false
+    isAuthenticated: false
 };
 
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
-        case ActionType.SET_AUTHORIZED:
-            return {
-                ...state,
-                isAuthorized: action.isAuthorized
-            };
+        case ActionType.SET_NOT_AUTHENTICATED:
+            return defaultState;
         case ActionType.AUTHENTICATION_SUCCESS:
             localStorage.setItem("token", action.token);
             return {
                 ...state,
-                isAuthorized: true
+                isAuthenticated: true
             };
         case ActionType.SIGN_OUT:
             localStorage.removeItem("token");
