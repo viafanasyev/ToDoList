@@ -1,5 +1,5 @@
 import React from "react";
-import { actionType } from "../actions/dialog";
+import { ActionType } from "../actions/dialog";
 
 const defaultState = {
     isOpen: false,
@@ -12,7 +12,7 @@ const defaultState = {
 
 const dialog = (state = defaultState, action) => {
     switch (action.type) {
-        case actionType.START_DIALOG_FOR_RESULT:
+        case ActionType.START_DIALOG_FOR_RESULT:
             return {
                 ...state,
                 isOpen: true,
@@ -22,14 +22,14 @@ const dialog = (state = defaultState, action) => {
                 taskId: action.taskId,
                 projectId: action.projectId
             };
-        case actionType.PRE_EDIT_TASK:
+        case ActionType.PRE_EDIT_TASK:
             return {
                 ...state,
                 taskName: action.name,
                 taskDescription: action.description,
                 taskPriority: action.priority,
             };
-        case actionType.CLOSE_DIALOG:
+        case ActionType.CLOSE_DIALOG:
             return defaultState;
         default:
             return state;

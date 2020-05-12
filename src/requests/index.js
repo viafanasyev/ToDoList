@@ -3,7 +3,7 @@ export const request = (url, method = 'GET', body) => {
     return fetch(`${BASE_URL}${url}`, {
         method,
         headers: {
-            Token: 'viafanasyev',
+            'Token': localStorage.getItem("token"),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)

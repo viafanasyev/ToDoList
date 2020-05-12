@@ -2,7 +2,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  min-height: 100vh;
+  min-height: 500px;
+  height: 100%;
 
   padding-left: 30px;
   padding-right: 30px;
@@ -10,4 +11,9 @@
   background: #fbfbfb;
   border-right: 1px solid #eee;
   filter: drop-shadow(0 0 5px #bbb);
+
+  .floor {
+    position: absolute;
+    bottom: 30px;
+  }
 }

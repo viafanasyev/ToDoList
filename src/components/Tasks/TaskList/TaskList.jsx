@@ -6,7 +6,7 @@ import { startDialogForResult } from "../../../actions/dialog";
 
 const cx = classnames.bind(styles);
 
-export const getTasksNumber = (tasks) =>
+const getTasksNumber = (tasks) =>
     tasks === undefined ? 0 : tasks.length;
 
 const mapStateToProps = (state, ownProps) => ({

@@ -1,5 +1,6 @@
-import { actionType } from "../actions";
+import { ActionType } from "../actions";
 import dialog from "./dialog";
+import authentication from "./authentication";
 import { combineReducers } from "redux";
 
 const defaultState = {
@@ -11,7 +12,7 @@ const reducer = (state = defaultState, action) => {
     let newState;
     let projectId;
     switch (action.type) {
-        case actionType.ADD_TASK_SUCCESS:
+        case ActionType.ADD_TASK_SUCCESS:
             return {
                 ...state,
                 tasks: {
@@ -22,7 +23,7 @@ const reducer = (state = defaultState, action) => {
                     ]
                 }
             };
-        case actionType.SORT_TASKS:
+        case ActionType.SORT_TASKS:
             projectId = action.projectId;
             if (!state.tasks.hasOwnProperty(projectId))
                 return state;
@@ -42,7 +43,7 @@ const reducer = (state = defaultState, action) => {
                 newState.tasks[projectId].sort((a, b) => a[property] > b[property] ? -1 : (a[property] < b[property] ? 1 : 0));
 
             return newState;
-        case actionType.ADD_PROJECT_SUCCESS:
+        case ActionType.ADD_PROJECT_SUCCESS:
             return {
                 ...state,
                 projects: [
@@ -50,12 +51,12 @@ const reducer = (state = defaultState, action) => {
                     action.project
                 ]
             };
-        case actionType.LOAD_PROJECTS_SUCCESS:
+        case ActionType.LOAD_PROJECTS_SUCCESS:
             return {
                 ...state,
                 projects: action.projects
             };
-        case actionType.LOAD_TASKS_SUCCESS:
+        case ActionType.LOAD_TASKS_SUCCESS:
             return {
                 ...state,
                 tasks: {
@@ -63,7 +64,7 @@ const reducer = (state = defaultState, action) => {
                     [action.projectId]: action.tasks
                 }
             };
-        case actionType.EDIT_TASK_SUCCESS:
+        case ActionType.EDIT_TASK_SUCCESS:
             projectId = action.projectId;
             if (!state.tasks.hasOwnProperty(projectId))
                 return state;
@@ -94,5 +95,6 @@ const reducer = (state = defaultState, action) => {
 
 export default combineReducers({
     todoReducer: reducer,
-    dialogReducer: dialog
+    dialogReducer: dialog,
+    authenticationReducer: authentication
 });

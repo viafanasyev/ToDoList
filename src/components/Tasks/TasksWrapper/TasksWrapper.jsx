@@ -5,6 +5,7 @@ import TaskMenu from "../TaskMenu/TaskMenu";
 import TaskList from "../TaskList/TaskList";
 import { connect } from "react-redux";
 import { request } from "../../../requests";
+import PropTypes from "prop-types";
 
 class TasksWrapper extends React.Component {
     state = {
@@ -14,7 +15,7 @@ class TasksWrapper extends React.Component {
 
     async componentDidMount() {
         if (isNaN(this.props.projectId)) {
-            this.setState({ isFetching: false, statusCode: 404 });
+            this.setState({ isFetching: false, isStatusOk: false });
             return;
         }
 
@@ -57,5 +58,9 @@ class TasksWrapper extends React.Component {
 const mapDispatchToProps = dispatch => ({
     loadTasksSuccess: (tasks, projectId) => dispatch(loadTasksSuccess(tasks, projectId))
 });
+
+TasksWrapper.propTypes = {
+    loadTasksSuccess: PropTypes.func
+};
 
 export default connect(null, mapDispatchToProps)(TasksWrapper);
